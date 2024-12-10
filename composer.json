@@ -1,0 +1,36 @@
+{
+    "name": "ilaravelpro/ibook",
+    "description": "iLaravel iShop",
+    "keywords": ["laravel","auto pro", "book"],
+    "homepage": "https://ilaravel.iamir.net/packages/ibook",
+    "type": "Laravel package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name" : "iamirnet",
+            "email" : "me@iamir.net"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "src"
+        ],
+        "psr-4": {
+            "iLaravel\\iBook\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "iLaravel\\iBook\\Providers\\AppServiceProvider",
+                "iLaravel\\iBook\\Providers\\RouteServiceProvider",
+                "iLaravel\\iBook\\Providers\\AuthServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
