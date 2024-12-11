@@ -3,7 +3,6 @@
     "description": "iLaravel iShop",
     "keywords": ["laravel","auto pro", "book"],
     "homepage": "https://ilaravel.iamir.net/packages/ibook",
-    "type": "Laravel package",
     "license": "MIT",
     "authors": [
         {
