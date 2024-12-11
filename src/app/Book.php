@@ -59,7 +59,6 @@ class Book extends \iLaravel\Core\iApp\Model
         }
         $product->model = "Book";
         $product->model_id = $this->id;
-        $product->type = "book";
         $product->save();
         $product->additionalUpdate($request);
         $this->product_id = $product->id;
