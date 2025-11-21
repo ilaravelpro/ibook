@@ -38,14 +38,14 @@ class Book extends Resource
                 }catch (\Throwable $exception) {}
             }
             if (@$data['translators'] && $data['translators']?->count() && $this->type_action == 'single')
-                $data["translators_books"] = static::collection(imodal('Book')::whereHas('creators', function ($q) {
+                $data["translators_books"] = static::collection(imodal('Book')::where("id", "!=", $this->id)->with(["authors"])->whereHas('creators', function ($q) {
                     $q->whereIn('book_creators.id', $this->creators->where('pivot.group', 'translator')->pluck('id')->toArray());
                 })->orderByRaw('RAND()')->limit(10)->get()->map(function ($item) {
                     $item->is_while = true;
                     return $item;
                 }));
             if (@$data['authors'] && $data['authors']?->count() && $this->type_action == 'single')
-                $data["authors_books"] = static::collection(imodal('Book')::whereHas('creators', function ($q) {
+                $data["authors_books"] = static::collection(imodal('Book')::where("id", "!=", $this->id)->with(["authors"])->whereHas('creators', function ($q) {
                     $q->whereIn('book_creators.id', $this->creators->where('pivot.group', 'author')->pluck('id')->toArray());
                 })->orderByRaw('RAND()')->limit(10)->get()->map(function ($item) {
                     $item->is_while = true;
@@ -56,6 +56,13 @@ class Book extends Resource
                     $data['book_index_b64'] = base64_encode(file_get_contents(public_path($book_index['original']->slug)));
                 }
             } catch (\Throwable $exception) {}
+        }elseif (@$this->resource->is_while) {
+            foreach (["author"] as $index) {
+                try {
+                    $creators = @$this->{"{$index}s"} && @@$this->{"{$index}s"}?->count() ? @$this->{"{$index}s"} : collect();
+                    $data["{$index}s"] = $creators && $creators?->count() ? iresourcedata('BookCreator')::collection($this->creators->where('pivot.group', $index)): [];
+                }catch (\Throwable $exception) {}
+            }
         }
         if ($this->prices && ($price = $this->prices->where('stock', '>', 0)->first()))
             $data['price_sale'] = $price->price_sale;

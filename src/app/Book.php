@@ -55,6 +55,11 @@ class Book extends Product
         return $this->belongsToMany(imodal('BookCreator'), 'books_creators', 'book_id', 'creator_id')->withPivot(['group']);
     }
 
+    public function authors()
+    {
+        return $this->creators()->wherePivot('group', 'author');
+    }
+
     public function sounds()
     {
         return $this->belongsToMany(imodal('BookSound'), 'books_sounds', 'book_id', 'sound_id')->withPivot(['link']);
